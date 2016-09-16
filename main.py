@@ -4,21 +4,21 @@ __author__ = 'deathbless'
 import os
 import sqlobject
 from sqlobject.sqlbuilder import *
-from connection import conn
+from connection import connect
 import array
 
-
-class data(sqlobject.SQLObject):
-    _connection = conn
 
 num = 0
 tasks = []  # 已经加速的任务，可能有重复因此用list记录下
 allTasks = []  # 总共的任务，显示数量用
 flyNum = 0
 
-#TODO 多任务支持,一个任务可能有两个TaskId
-def getTask():
-    global num, allTasks
+def getTask(name=None):
+    global num, allTasks, conn
+    if name:
+        conn = connect(name)
+    else:
+        conn = connect()
     tables = conn.listTables()
     for table in tables:
         if "superspeed" in table or "offline" in table:
@@ -61,7 +61,7 @@ def crack(taskId, tableName, AccTaskId, LocalSub):
         if string['Result'] == 0 and taskId not in tasks:
             flyNum += 1
             data = conn.queryAll("SELECT Name FROM TaskBase WHERE TaskId=%s" % taskId)
-            print "已经加速了%s任务" % str(data[0][0]).decode("utf-8")
+            print "已经加速了%s任务" % str(data[0][0])
             tasks.append(taskId)
 
 
