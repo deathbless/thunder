@@ -36,7 +36,7 @@ def crack(taskId, tableName, AccTaskId, LocalSub):
 
     # data获取到的是一个集合，虽然这个集合里面只有一个任务（where条件保证）
     UserData = data[0][0]
-    string = str(UserData)
+    string = str(UserData).decode("utf-8")
     string = eval(string)
     if "Message" in string.keys():
         string['Message'] = "fuck u thunder"
@@ -44,7 +44,7 @@ def crack(taskId, tableName, AccTaskId, LocalSub):
         if string['Result'] == 0:
             return
         string['Result'] = 0
-    update = Update(tableName, values={"UserData": buffer(array.array('c',str(string).replace("'", '"')))},\
+    update = Update(tableName, values={"UserData": buffer(array.array('c',str(string).replace("'", '"').encode("utf-8")))},\
                     where="LocalTaskId=%s AND AccelerateTaskId=%s AND LocalSubFileIndex=%s"\
                           % (taskId, AccTaskId, LocalSub))
     query = conn.sqlrepr(update)
