@@ -60,6 +60,8 @@ def crack(taskId, tableName, AccTaskId, LocalSub):
     if "Result" in string.keys():
         if string['Result'] == 0 and taskId not in tasks:
             flyNum += 1
+            data = conn.queryAll("SELECT Name FROM TaskBase WHERE TaskId=%s" % taskId)
+            print "已经加速了%s任务" % str(data[0][0]).decode("utf-8")
             tasks.append(taskId)
 
 
