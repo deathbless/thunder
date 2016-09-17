@@ -8,13 +8,15 @@ from connection import connect
 import array
 
 
-num = 0
-tasks = []  # 已经加速的任务，可能有重复因此用list记录下
-allTasks = []  # 总共的任务，显示数量用
-flyNum = 0
+
 
 def getTask(name=None):
-    global num, allTasks, conn
+    global num, allTasks, conn, num, tasks, allTasks, flyNum, ans
+    num = 0
+    ans = []
+    tasks = []  # 已经加速的任务，可能有重复因此用list记录下
+    allTasks = []  # 总共的任务，显示数量用
+    flyNum = 0
     if name:
         conn = connect(name)
     else:
@@ -28,6 +30,7 @@ def getTask(name=None):
                 if task[0] not in allTasks:
                     num += 1
                     allTasks.append(task[0])
+    return ans, num, flyNum
 
 def crack(taskId, tableName, AccTaskId, LocalSub):
     global flyNum, tasks
@@ -61,7 +64,8 @@ def crack(taskId, tableName, AccTaskId, LocalSub):
         if string['Result'] == 0 and taskId not in tasks:
             flyNum += 1
             data = conn.queryAll("SELECT Name FROM TaskBase WHERE TaskId=%s" % taskId)
-            print "已经加速了%s任务" % str(data[0][0])
+            # print "已经加速了%s任务" % str(data[0][0])
+            ans.append(u"已经加速了%s任务\n" % str(data[0][0]))
             tasks.append(taskId)
 
 
@@ -90,6 +94,7 @@ def find():
                 num += 1
 
 if __name__ == '__main__':
-    print "现在正在读取数据库..."
-    getTask()
-    print "执行完毕，现在总共有%s个任务在下载中,新加速了%s个任务" % (num, flyNum)
+    pass
+    # print "现在正在读取数据库..."
+    # getTask()
+    # print "执行完毕，现在总共有%s个任务在下载中,新加速了%s个任务" % (num, flyNum)
