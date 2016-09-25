@@ -74,6 +74,7 @@ class Ui_MainWindow(object):
             self.input.setText(f.readline())
             f.close()
         MainWindow.setWindowTitle(_translate("MainWindow", "迅雷加速破解", None))
+        self.main.setWindowIcon(QtGui.QIcon('ui.ico'))
         self.button.setText(_translate("MainWindow", "浏览", None))
         self.buttonOk.setText(_translate("MainWindow", "加速", None))
         self.label_desc.setText(_translate("MainWindow", "请键入迅雷数据库所在文件或者选择路径，位于迅雷安装路径/Profiles/TaskDb.dat", None))
